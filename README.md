@@ -24,7 +24,7 @@ Early development. The production workflow already exists; the app is being buil
 - [x] Scene-by-scene scripts: episodes, scenes with time, visual, dialogue lines (speech, thought, message), image prompt and file name; reorder scenes; export to Markdown
 - [ ] Character cards
 - [x] Speech bubble editor: load a scene image, drag each dialogue line as a speech, thought or phone-message bubble, adjust width, text size and tail side, and download the finished PNG at full resolution
-- [ ] Publishing calendar
+- [x] Publishing calendar: schedule an episode on YouTube, Instagram and TikTok at a date and time, see the month at a glance, mark posts as posted (the idea moves to "Published" when every post is out)
 
 ## How to run
 

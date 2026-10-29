@@ -14,12 +14,13 @@ function loadState() {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (saved && Array.isArray(saved.channels) && Array.isArray(saved.ideas)) {
       saved.episodes ??= [];
+      saved.posts ??= [];
       return saved;
     }
   } catch (error) {
     console.warn("Could not read saved data", error);
   }
-  return { channels: [], ideas: [], episodes: [] };
+  return { channels: [], ideas: [], episodes: [], posts: [] };
 }
 
 function saveState() {
@@ -168,6 +169,7 @@ function render() {
   renderIdeas();
   renderScripts();
   renderBubbles();
+  renderCalendar();
 }
 
 function showView(name) {
@@ -220,6 +222,7 @@ function deleteChannel(id) {
   state.channels = state.channels.filter((channel) => channel.id !== id);
   state.ideas = state.ideas.filter((idea) => idea.channelId !== id);
   state.episodes = state.episodes.filter((episode) => episode.channelId !== id);
+  state.posts = state.posts.filter((post) => episodeById(post.episodeId));
   if (!activeEpisode()) activeEpisodeId = null;
   if (activeChannelId === id) activeChannelId = null;
   saveState();
@@ -278,4 +281,5 @@ for (const tab of document.querySelectorAll(".tab[data-view]")) {
 
 initScripts();
 initBubbles();
+initCalendar();
 render();

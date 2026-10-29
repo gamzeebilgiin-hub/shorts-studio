@@ -269,8 +269,73 @@ button:disabled { opacity: 0.45; cursor: default; }
 .bubble-controls { display: grid; gap: 0.6rem; }
 .bubble-controls label { display: grid; gap: 0.25rem; font-size: 0.9rem; }
 
+/* ---------- calendar ---------- */
+
+.post-form { display: grid; gap: 0.6rem; margin-bottom: 1rem; }
+.post-form h2 { margin-bottom: 0; }
+
+.calendar { margin-bottom: 1rem; }
+
+.calendar-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+.calendar-head h2 { margin: 0; min-width: 10rem; text-align: center; }
+#calendar-today { margin-left: auto; }
+
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.25rem; }
+
+.weekday { text-align: center; font-size: 0.8rem; color: var(--muted); padding-bottom: 0.25rem; }
+
+.day {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 0.2rem;
+  min-height: 3.6rem;
+  padding: 0.35rem;
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+  border-radius: 8px;
+}
+
+.day-number { width: 100%; text-align: left; font-size: 0.85rem; }
+.day.is-outside { opacity: 0.4; }
+.day.is-today .day-number { color: var(--accent); font-weight: 700; }
+.day.is-selected { border-color: var(--accent); background: var(--accent-soft); }
+
+.platform-youtube { --platform: #e5484d; }
+.platform-instagram { --platform: #d6409f; }
+.platform-tiktok { --platform: #12a594; }
+
+.post-dot {
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  border: 2px solid var(--platform, var(--muted));
+  background: var(--platform, var(--muted));
+}
+
+/* Posted: hollow ring in the platform colour. */
+.post-dot.is-posted { background: transparent; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.75rem; }
+
+.day-title { margin-bottom: 0.5rem; }
+
+.day-posts { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+
+.day-post { display: flex; align-items: center; gap: 0.75rem; }
+.day-post.is-posted { opacity: 0.6; }
+.day-post-text { display: grid; flex: 1; min-width: 0; }
+
+.platform-tag { color: #fff; background: var(--platform); }
+
+.posted-toggle { display: flex; align-items: center; gap: 0.3rem; font-size: 0.9rem; }
+
 @media (max-width: 720px) {
   .layout { grid-template-columns: 1fr; padding: 1rem; }
+  .day { min-height: 2.8rem; padding: 0.2rem; }
+  .day-post { flex-wrap: wrap; }
   .bubble-layout { grid-template-columns: 1fr; }
   .line-row { flex-wrap: wrap; }
   .scene-field .line-text { flex-basis: 100%; }

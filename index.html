@@ -14,7 +14,7 @@
       <button class="tab" data-view="scripts">Scripts</button>
       <button class="tab" data-view="bubbles">Bubbles</button>
       <button class="tab" disabled title="Coming soon">Characters</button>
-      <button class="tab" disabled title="Coming soon">Calendar</button>
+      <button class="tab" data-view="calendar">Calendar</button>
     </nav>
   </header>
 
@@ -126,10 +126,51 @@
         </div>
       </div>
     </section>
+
+    <section class="content" id="view-calendar" hidden>
+      <form id="post-form" class="card post-form">
+        <h2>Schedule a post</h2>
+        <p id="post-no-episodes" class="muted" hidden>Write an episode in Scripts first, then schedule it here.</p>
+        <div class="row">
+          <select id="post-episode" aria-label="Episode" required></select>
+          <input type="date" id="post-date" aria-label="Date" required>
+          <input type="time" id="post-time" aria-label="Time">
+        </div>
+        <div class="row">
+          <fieldset id="post-platforms" class="platforms">
+            <label><input type="checkbox" value="YouTube" checked> YouTube</label>
+            <label><input type="checkbox" value="Instagram" checked> Instagram</label>
+            <label><input type="checkbox" value="TikTok" checked> TikTok</label>
+          </fieldset>
+          <button type="submit">Schedule</button>
+        </div>
+      </form>
+
+      <div class="card calendar">
+        <div class="calendar-head">
+          <button type="button" id="calendar-prev" class="link-button" aria-label="Previous month">←</button>
+          <h2 id="calendar-title"></h2>
+          <button type="button" id="calendar-next" class="link-button" aria-label="Next month">→</button>
+          <button type="button" id="calendar-today" class="link-button">Today</button>
+        </div>
+        <div id="calendar-grid" class="calendar-grid"></div>
+        <div class="legend muted">
+          <span><span class="post-dot platform-youtube"></span> YouTube</span>
+          <span><span class="post-dot platform-instagram"></span> Instagram</span>
+          <span><span class="post-dot platform-tiktok"></span> TikTok</span>
+          <span><span class="post-dot is-posted"></span> Posted</span>
+        </div>
+      </div>
+
+      <h2 id="day-title" class="day-title"></h2>
+      <ul id="day-posts" class="day-posts"></ul>
+      <p id="day-empty" class="muted" hidden>Nothing scheduled for this day.</p>
+    </section>
   </main>
 
   <script src="scripts.js"></script>
   <script src="bubbles.js"></script>
+  <script src="calendar.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

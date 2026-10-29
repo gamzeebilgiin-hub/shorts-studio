@@ -212,8 +212,9 @@ function deleteScene(episode, sceneId) {
 
 function deleteEpisode() {
   const episode = activeEpisode();
-  if (!episode || !confirm(`Delete "${episode.title}" and all its scenes?`)) return;
+  if (!episode || !confirm(`Delete "${episode.title}" with all its scenes and scheduled posts?`)) return;
   state.episodes = state.episodes.filter((item) => item.id !== episode.id);
+  state.posts = state.posts.filter((post) => post.episodeId !== episode.id);
   activeEpisodeId = null;
   saveState();
   render();
