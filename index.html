@@ -12,6 +12,7 @@
     <nav>
       <button class="tab is-active" data-view="ideas">Idea bank</button>
       <button class="tab" data-view="scripts">Scripts</button>
+      <button class="tab" data-view="bubbles">Bubbles</button>
       <button class="tab" disabled title="Coming soon">Characters</button>
       <button class="tab" disabled title="Coming soon">Calendar</button>
     </nav>
@@ -79,9 +80,56 @@
         <button type="button" id="add-scene">+ Add scene</button>
       </div>
     </section>
+
+    <section class="content" id="view-bubbles" hidden>
+      <p id="bubble-empty" class="muted empty" hidden>No episodes yet. Write a script first, then place its dialogue here.</p>
+
+      <div id="bubble-workspace" class="bubble-workspace">
+        <div class="card bubble-toolbar">
+          <select id="bubble-episode" aria-label="Episode"></select>
+          <div id="bubble-scenes" class="scene-chips"></div>
+        </div>
+
+        <div class="bubble-layout">
+          <div class="card bubble-stage">
+            <canvas id="bubble-canvas" hidden></canvas>
+            <p id="bubble-no-image" class="muted empty">Choose the scene image on the right to start placing bubbles.</p>
+          </div>
+
+          <aside class="card bubble-side">
+            <label class="file-button">
+              Choose scene image
+              <input type="file" id="bubble-file" accept="image/*">
+            </label>
+
+            <div>
+              <h2>Bubbles</h2>
+              <p id="bubble-no-lines" class="muted" hidden>This scene has no dialogue yet. Add lines in Scripts.</p>
+              <ul id="bubble-lines" class="bubble-lines"></ul>
+              <p class="muted">Drag a bubble on the image to move it.</p>
+            </div>
+
+            <div id="bubble-controls" class="bubble-controls" hidden>
+              <label>Width <input type="range" id="bubble-width" min="15" max="95"></label>
+              <label>Text size <input type="range" id="bubble-size" min="20" max="80"></label>
+              <label>Tail / side
+                <select id="bubble-tail">
+                  <option value="left">Left</option>
+                  <option value="right">Right</option>
+                  <option value="none">None</option>
+                </select>
+              </label>
+            </div>
+
+            <button type="button" id="bubble-export">Download PNG</button>
+          </aside>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script src="scripts.js"></script>
+  <script src="bubbles.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -167,14 +167,16 @@ function render() {
   renderChannels();
   renderIdeas();
   renderScripts();
+  renderBubbles();
 }
 
 function showView(name) {
   for (const tab of document.querySelectorAll(".tab[data-view]")) {
     tab.classList.toggle("is-active", tab.dataset.view === name);
+    $(`view-${tab.dataset.view}`).hidden = tab.dataset.view !== name;
   }
-  $("view-ideas").hidden = name !== "ideas";
-  $("view-scripts").hidden = name !== "scripts";
+  // Scripts may have changed since the bubble editor was last drawn.
+  if (name === "bubbles") renderBubbles();
 }
 
 // ---------- actions ----------
@@ -275,4 +277,5 @@ for (const tab of document.querySelectorAll(".tab[data-view]")) {
 }
 
 initScripts();
+initBubbles();
 render();

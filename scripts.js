@@ -1,5 +1,6 @@
 // Shorts Studio – scene-by-scene scripts.
 // Loaded before app.js; uses the shared state, saveState, newId and activeChannelId from there.
+// Each dialogue line may also carry a `bubble` layout, added by the bubble editor.
 
 const LINE_KINDS = ["speech", "thought", "message"];
 const KIND_LABELS = { speech: "", thought: " (thought)", message: " (message)" };

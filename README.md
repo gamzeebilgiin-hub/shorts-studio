@@ -23,12 +23,12 @@ Early development. The production workflow already exists; the app is being buil
 - [x] Idea bank: channels, ideas, platforms, status and filtering
 - [x] Scene-by-scene scripts: episodes, scenes with time, visual, dialogue lines (speech, thought, message), image prompt and file name; reorder scenes; export to Markdown
 - [ ] Character cards
-- [ ] Speech bubble editor
+- [x] Speech bubble editor: load a scene image, drag each dialogue line as a speech, thought or phone-message bubble, adjust width, text size and tail side, and download the finished PNG at full resolution
 - [ ] Publishing calendar
 
 ## How to run
 
-No installation needed. Download the repository and open `index.html` in your browser. Your data is saved in the browser (localStorage) on your own computer.
+No installation needed. Download the repository and open `index.html` in your browser. Your data is saved in the browser on your own computer: text in localStorage, scene images in IndexedDB.
 
 ## License
 
