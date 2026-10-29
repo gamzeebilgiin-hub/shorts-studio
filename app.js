@@ -57,6 +57,19 @@ function statusOptions() {
   return STATUSES.map((status) => new Option(t(`status_${status}`), status));
 }
 
+// Fills a channel dropdown; with no channels it shows a disabled hint instead of an empty box.
+function fillChannelSelect(select) {
+  if (state.channels.length === 0) {
+    const hint = new Option(t("add_channel_first"), "");
+    hint.disabled = true;
+    select.replaceChildren(hint);
+    select.value = "";
+    return;
+  }
+  select.replaceChildren(...state.channels.map((channel) => new Option(channel.name, channel.id)));
+  if (activeChannelId) select.value = activeChannelId;
+}
+
 function channelNameById(id) {
   return state.channels.find((channel) => channel.id === id)?.name ?? t("unknown_channel");
 }
@@ -91,11 +104,7 @@ function renderChannels() {
     channelList.append(item);
   }
 
-  ideaChannel.replaceChildren();
-  for (const channel of state.channels) {
-    ideaChannel.append(new Option(channel.name, channel.id));
-  }
-  if (activeChannelId) ideaChannel.value = activeChannelId;
+  fillChannelSelect(ideaChannel);
   ideaForm.querySelector("button[type=submit]").disabled = state.channels.length === 0;
 }
 

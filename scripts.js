@@ -76,9 +76,7 @@ function renderEpisodeList() {
 
   $("episode-empty").hidden = episodes.length > 0;
 
-  const channelSelect = $("episode-channel");
-  channelSelect.replaceChildren(...state.channels.map((channel) => new Option(channel.name, channel.id)));
-  if (activeChannelId) channelSelect.value = activeChannelId;
+  fillChannelSelect($("episode-channel"));
   $("episode-form").querySelector("button[type=submit]").disabled = state.channels.length === 0;
 }
 
