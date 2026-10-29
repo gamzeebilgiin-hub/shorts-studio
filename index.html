@@ -11,7 +11,7 @@
     <h1>Shorts Studio</h1>
     <nav>
       <button class="tab is-active" data-view="ideas">Idea bank</button>
-      <button class="tab" disabled title="Coming soon">Scripts</button>
+      <button class="tab" data-view="scripts">Scripts</button>
       <button class="tab" disabled title="Coming soon">Characters</button>
       <button class="tab" disabled title="Coming soon">Calendar</button>
     </nav>
@@ -27,7 +27,7 @@
       </form>
     </aside>
 
-    <section class="content">
+    <section class="content" id="view-ideas">
       <form id="idea-form" class="card idea-form">
         <h2>New idea</h2>
         <input id="idea-title" placeholder="Idea title" required maxlength="120">
@@ -53,8 +53,35 @@
       <ul id="idea-list" class="idea-list"></ul>
       <p id="empty-state" class="muted empty" hidden>No ideas yet. Add a channel, then write your first idea.</p>
     </section>
+
+    <section class="content" id="view-scripts" hidden>
+      <form id="episode-form" class="card inline-form">
+        <input id="episode-new-title" placeholder="New episode title" required maxlength="120">
+        <select id="episode-channel" required></select>
+        <button type="submit">Create episode</button>
+      </form>
+
+      <ul id="episode-list" class="episode-list"></ul>
+      <p id="episode-empty" class="muted empty" hidden>No episodes yet. Create one above, or use "Write script" on an idea.</p>
+
+      <div id="episode-editor" class="episode-editor" hidden>
+        <div class="card episode-meta">
+          <input id="episode-title" class="episode-title" placeholder="Episode title" maxlength="120">
+          <textarea id="episode-notes" rows="3" placeholder="Format, character continuity, editing notes…"></textarea>
+          <div class="row">
+            <button type="button" id="copy-markdown">Copy Markdown</button>
+            <button type="button" id="download-markdown">Download .md</button>
+            <button type="button" id="delete-episode" class="link-button">Delete episode</button>
+          </div>
+        </div>
+
+        <ol id="scene-list" class="scene-list"></ol>
+        <button type="button" id="add-scene">+ Add scene</button>
+      </div>
+    </section>
   </main>
 
+  <script src="scripts.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

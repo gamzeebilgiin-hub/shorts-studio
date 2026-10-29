@@ -1,4 +1,4 @@
-// Shorts Studio – idea bank.
+// Shorts Studio – shared state, channels and the idea bank.
 // All data lives in the browser's localStorage, so the app works without a server.
 
 const STORAGE_KEY = "shorts-studio:v1";
@@ -12,11 +12,14 @@ let activeChannelId = null; // null means "All channels"
 function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (saved && Array.isArray(saved.channels) && Array.isArray(saved.ideas)) return saved;
+    if (saved && Array.isArray(saved.channels) && Array.isArray(saved.ideas)) {
+      saved.episodes ??= [];
+      return saved;
+    }
   } catch (error) {
     console.warn("Could not read saved data", error);
   }
-  return { channels: [], ideas: [] };
+  return { channels: [], ideas: [], episodes: [] };
 }
 
 function saveState() {
@@ -125,12 +128,18 @@ function renderIdea(idea) {
   status.value = idea.status;
   status.addEventListener("change", () => updateIdea(idea.id, { status: status.value }));
 
+  const episode = state.episodes.find((item) => item.ideaId === idea.id);
+  const script = document.createElement("button");
+  script.className = "link-button";
+  script.textContent = episode ? "Open script" : "Write script";
+  script.addEventListener("click", () => openScriptForIdea(idea));
+
   const remove = document.createElement("button");
   remove.className = "link-button";
   remove.textContent = "Delete";
   remove.addEventListener("click", () => deleteIdea(idea.id));
 
-  actions.append(status, remove);
+  actions.append(status, script, remove);
   head.append(title, actions);
   item.append(head);
 
@@ -157,12 +166,35 @@ function renderIdea(idea) {
 function render() {
   renderChannels();
   renderIdeas();
+  renderScripts();
+}
+
+function showView(name) {
+  for (const tab of document.querySelectorAll(".tab[data-view]")) {
+    tab.classList.toggle("is-active", tab.dataset.view === name);
+  }
+  $("view-ideas").hidden = name !== "ideas";
+  $("view-scripts").hidden = name !== "scripts";
 }
 
 // ---------- actions ----------
 
+function openScriptForIdea(idea) {
+  const existing = state.episodes.find((episode) => episode.ideaId === idea.id);
+  if (existing) {
+    activeEpisodeId = existing.id;
+  } else {
+    createEpisode({ title: idea.title, channelId: idea.channelId, ideaId: idea.id });
+    if (idea.status === "Idea") idea.status = "Scripting";
+    saveState();
+  }
+  render();
+  showView("scripts");
+}
+
 function selectChannel(id) {
   activeChannelId = id;
+  if (id !== null && activeEpisode()?.channelId !== id) activeEpisodeId = null;
   render();
 }
 
@@ -176,13 +208,17 @@ function addChannel(name) {
 
 function deleteChannel(id) {
   const ideaTotal = state.ideas.filter((idea) => idea.channelId === id).length;
-  const message = ideaTotal
-    ? `Delete "${channelNameById(id)}" and its ${ideaTotal} idea(s)?`
-    : `Delete "${channelNameById(id)}"?`;
+  const episodeTotal = state.episodes.filter((episode) => episode.channelId === id).length;
+  const message =
+    ideaTotal || episodeTotal
+      ? `Delete "${channelNameById(id)}" with its ${ideaTotal} idea(s) and ${episodeTotal} episode(s)?`
+      : `Delete "${channelNameById(id)}"?`;
   if (!confirm(message)) return;
 
   state.channels = state.channels.filter((channel) => channel.id !== id);
   state.ideas = state.ideas.filter((idea) => idea.channelId !== id);
+  state.episodes = state.episodes.filter((episode) => episode.channelId !== id);
+  if (!activeEpisode()) activeEpisodeId = null;
   if (activeChannelId === id) activeChannelId = null;
   saveState();
   render();
@@ -234,4 +270,9 @@ ideaForm.addEventListener("submit", (event) => {
 
 filterStatus.addEventListener("change", renderIdeas);
 
+for (const tab of document.querySelectorAll(".tab[data-view]")) {
+  tab.addEventListener("click", () => showView(tab.dataset.view));
+}
+
+initScripts();
 render();

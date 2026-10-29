@@ -21,7 +21,7 @@ Today I manage all of this with Claude Code in folders and Markdown files. Short
 Early development. The production workflow already exists; the app is being built step by step with Claude Code.
 
 - [x] Idea bank: channels, ideas, platforms, status and filtering
-- [ ] Scene-by-scene scripts
+- [x] Scene-by-scene scripts: episodes, scenes with time, visual, dialogue lines (speech, thought, message), image prompt and file name; reorder scenes; export to Markdown
 - [ ] Character cards
 - [ ] Speech bubble editor
 - [ ] Publishing calendar

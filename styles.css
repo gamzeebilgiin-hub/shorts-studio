@@ -162,6 +162,52 @@ button:disabled { opacity: 0.45; cursor: default; }
 
 .empty { text-align: center; padding: 2rem 0; }
 
+/* ---------- scripts ---------- */
+
+#episode-form { margin-bottom: 1rem; flex-wrap: wrap; }
+
+.episode-list { list-style: none; padding: 0; margin: 0 0 1rem; display: grid; gap: 0.4rem; }
+
+.episode-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.episode-list li.is-active { border-color: var(--accent); background: var(--accent-soft); }
+
+.episode-editor { display: grid; gap: 0.75rem; }
+.episode-editor > #add-scene { justify-self: start; }
+
+.episode-meta { display: grid; gap: 0.6rem; }
+.episode-title { font-size: 1.1rem; font-weight: 600; }
+
+.scene-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+
+.scene { display: grid; gap: 0.6rem; }
+
+.scene-head { display: flex; align-items: center; gap: 0.6rem; }
+.scene-duration { width: 9rem; }
+.scene-head .idea-actions { margin-left: auto; }
+
+.scene-field { display: grid; gap: 0.3rem; }
+.scene-field input { width: 100%; }
+
+.scene-lines { display: grid; gap: 0.4rem; }
+
+.line-row { display: flex; gap: 0.4rem; }
+.scene-field .line-speaker { width: 8rem; flex: none; }
+.scene-field .line-text { flex: 1; min-width: 0; }
+
+.add-line { justify-self: start; color: var(--accent); }
+
 @media (max-width: 720px) {
   .layout { grid-template-columns: 1fr; padding: 1rem; }
+  .line-row { flex-wrap: wrap; }
+  .scene-field .line-text { flex-basis: 100%; }
 }
