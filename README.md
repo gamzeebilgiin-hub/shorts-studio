@@ -20,6 +20,16 @@ Today I manage all of this with Claude Code in folders and Markdown files. Short
 
 Early development. The production workflow already exists; the app is being built step by step with Claude Code.
 
+- [x] Idea bank: channels, ideas, platforms, status and filtering
+- [ ] Scene-by-scene scripts
+- [ ] Character cards
+- [ ] Speech bubble editor
+- [ ] Publishing calendar
+
+## How to run
+
+No installation needed. Download the repository and open `index.html` in your browser. Your data is saved in the browser (localStorage) on your own computer.
+
 ## License
 
 MIT, see [LICENSE](LICENSE).

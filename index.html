@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shorts Studio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Shorts Studio</h1>
+    <nav>
+      <button class="tab is-active" data-view="ideas">Idea bank</button>
+      <button class="tab" disabled title="Coming soon">Scripts</button>
+      <button class="tab" disabled title="Coming soon">Characters</button>
+      <button class="tab" disabled title="Coming soon">Calendar</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <h2>Channels</h2>
+      <ul id="channel-list" class="channel-list"></ul>
+      <form id="channel-form" class="inline-form">
+        <input id="channel-name" placeholder="New channel name" required maxlength="60">
+        <button type="submit">Add</button>
+      </form>
+    </aside>
+
+    <section class="content">
+      <form id="idea-form" class="card idea-form">
+        <h2>New idea</h2>
+        <input id="idea-title" placeholder="Idea title" required maxlength="120">
+        <textarea id="idea-notes" placeholder="Hook, story, notes…" rows="3"></textarea>
+        <div class="row">
+          <select id="idea-channel" required></select>
+          <fieldset class="platforms">
+            <label><input type="checkbox" value="YouTube" checked> YouTube</label>
+            <label><input type="checkbox" value="Instagram" checked> Instagram</label>
+            <label><input type="checkbox" value="TikTok" checked> TikTok</label>
+          </fieldset>
+          <button type="submit">Save idea</button>
+        </div>
+      </form>
+
+      <div class="filters">
+        <select id="filter-status">
+          <option value="">All statuses</option>
+        </select>
+        <span id="idea-count" class="muted"></span>
+      </div>
+
+      <ul id="idea-list" class="idea-list"></ul>
+      <p id="empty-state" class="muted empty" hidden>No ideas yet. Add a channel, then write your first idea.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
