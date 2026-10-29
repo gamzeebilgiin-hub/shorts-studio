@@ -2,6 +2,8 @@
 
 A web app for planning and producing AI-assisted short videos for YouTube Shorts, Instagram Reels and TikTok.
 
+**Live app:** https://gamzeebilgiin-hub.github.io/shorts-studio/
+
 ## Why
 
 I run several AI-assisted short-form video projects: four Shorts channels and an illustrated story series. Each episode has 15–20 vertical scenes, and each scene needs a script line, an image prompt, consistent character designs, and speech, thought or text-message bubbles.
@@ -28,7 +30,7 @@ Early development. The production workflow already exists; the app is being buil
 
 ## How to run
 
-No installation needed. Download the repository and open `index.html` in your browser. Your data is saved in the browser on your own computer: text in localStorage, scene images in IndexedDB.
+No installation needed. Open the [live app](https://gamzeebilgiin-hub.github.io/shorts-studio/), or download the repository and open `index.html` in your browser. Your data is saved in the browser on your own computer: text in localStorage, scene images in IndexedDB.
 
 ## License
 
