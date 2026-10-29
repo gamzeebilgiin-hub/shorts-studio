@@ -16,7 +16,10 @@
       <button class="tab" disabled data-i18n="tab_characters" data-i18n-title="coming_soon">Characters</button>
       <button class="tab" data-view="calendar" data-i18n="tab_calendar">Calendar</button>
     </nav>
-    <select id="language" class="language" data-i18n-aria="language"></select>
+    <div class="topbar-tools">
+      <button type="button" id="ai-settings-open" class="link-button" data-i18n="ai_settings">AI settings</button>
+      <select id="language" class="language" data-i18n-aria="language"></select>
+    </div>
   </header>
 
   <main class="layout">
@@ -169,8 +172,37 @@
     </section>
   </main>
 
+  <dialog id="assist-dialog" class="card dialog">
+    <h2 data-i18n="manual_title">Get help from Claude or ChatGPT</h2>
+    <p class="muted" data-i18n="manual_step1"></p>
+    <textarea id="assist-request" rows="6" readonly></textarea>
+    <button type="button" id="assist-copy" data-i18n="copy">Copy</button>
+    <p class="muted" data-i18n="manual_step2"></p>
+    <textarea id="assist-answer" rows="6" data-i18n-placeholder="paste_answer"></textarea>
+    <p id="assist-error" class="error" hidden data-i18n="ai_bad_answer"></p>
+    <div class="row">
+      <button type="button" id="assist-apply" data-i18n="apply">Apply</button>
+      <button type="button" id="assist-close" class="link-button" data-i18n="close">Close</button>
+    </div>
+  </dialog>
+
+  <dialog id="ai-settings" class="card dialog">
+    <h2 data-i18n="ai_settings">AI settings</h2>
+    <p class="muted" data-i18n="ai_key_note"></p>
+    <label class="dialog-field"><span data-i18n="ai_key_label">Anthropic API key</span>
+      <input type="password" id="ai-key" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">
+    </label>
+    <p id="ai-key-status" class="muted"></p>
+    <div class="row">
+      <button type="button" id="ai-key-save" data-i18n="save">Save</button>
+      <button type="button" id="ai-key-remove" class="link-button" data-i18n="remove_key">Remove key</button>
+      <button type="button" id="ai-settings-close" class="link-button" data-i18n="close">Close</button>
+    </div>
+  </dialog>
+
   <script src="i18n.js"></script>
   <script src="scripts.js"></script>
+  <script src="ai.js"></script>
   <script src="bubbles.js"></script>
   <script src="calendar.js"></script>
   <script src="app.js"></script>

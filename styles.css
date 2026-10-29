@@ -73,6 +73,29 @@ button:disabled { opacity: 0.45; cursor: default; }
 
 .language { padding: 0.35rem 0.5rem; font-size: 0.9rem; }
 
+.topbar-tools { display: flex; align-items: center; gap: 0.5rem; }
+
+/* ---------- get help ---------- */
+
+.assist-button { color: var(--accent); font-weight: 600; }
+
+.dialog {
+  width: min(640px, calc(100vw - 2rem));
+  color: var(--text);
+  display: grid;
+  gap: 0.6rem;
+}
+
+.dialog:not([open]) { display: none; }
+.dialog::backdrop { background: rgb(0 0 0 / 0.5); }
+.dialog h2 { margin: 0; }
+.dialog p { margin: 0; }
+.dialog > button { justify-self: start; }
+.dialog-field { display: grid; gap: 0.3rem; }
+.dialog-field input { width: 100%; }
+
+.error { color: #e5484d; margin: 0; }
+
 .tab {
   background: transparent;
   border-color: transparent;

@@ -28,6 +28,13 @@ Early development. The production workflow already exists; the app is being buil
 - [x] Speech bubble editor: load a scene image, drag each dialogue line as a speech, thought or phone-message bubble, adjust width, text size and tail side, and download the finished PNG at full resolution
 - [x] Publishing calendar: schedule an episode on YouTube, Instagram and TikTok at a date and time, see the month at a glance, mark posts as posted (the idea moves to "Published" when every post is out)
 
+## Get help from Claude
+
+Each scene has a **✨ Get help** button that suggests the scene's visual, dialogue lines and image prompt, using the episode's other scenes as context.
+
+- **With your own Anthropic API key** (AI settings in the top bar), the scene is written directly with Claude (`claude-opus-5-5`). The key is stored only in your browser and sent only to Anthropic; usage is billed to your API account.
+- **Without a key**, you get a ready-made request to paste into Claude or ChatGPT; paste the answer back and press Apply.
+
 ## Languages
 
 The interface is available in English, Türkçe, Español, Deutsch, Français and Português. It opens in your browser's language and you can switch it from the menu in the top bar; dates and weekdays follow the chosen language.

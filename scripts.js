@@ -128,7 +128,10 @@ function renderScene(episode, scene, index) {
 
   const actions = document.createElement("div");
   actions.className = "idea-actions";
+  const assist = smallButton(`✨ ${t("ai_assist")}`, t("ai_assist"), () => assistScene(episode, scene, assist));
+  assist.classList.add("assist-button");
   actions.append(
+    assist,
     smallButton("↑", t("move_up"), () => moveScene(episode, index, -1)),
     smallButton("↓", t("move_down"), () => moveScene(episode, index, 1)),
     smallButton(t("delete"), t("delete_scene"), () => deleteScene(episode, scene.id))

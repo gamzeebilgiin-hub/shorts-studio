@@ -303,6 +303,7 @@ languageSelect.addEventListener("change", () => {
 
 applyTranslations();
 initScripts();
+initAssist();
 initBubbles();
 initCalendar();
 render();
