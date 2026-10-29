@@ -3,7 +3,11 @@
 // Each dialogue line may also carry a `bubble` layout, added by the bubble editor.
 
 const LINE_KINDS = ["speech", "thought", "message"];
-const KIND_LABELS = { speech: "", thought: " (thought)", message: " (message)" };
+
+// Speech needs no label in the Markdown export; thoughts and messages are marked.
+function kindSuffix(kind) {
+  return kind === "speech" ? "" : ` (${t(`kind_${kind}`)})`;
+}
 
 let activeEpisodeId = null;
 
@@ -14,7 +18,7 @@ function newScene() {
 }
 
 function sceneCount(episode) {
-  return `${episode.scenes.length} scene${episode.scenes.length === 1 ? "" : "s"}`;
+  return t("scenes", { count: episode.scenes.length });
 }
 
 function activeEpisode() {
@@ -119,38 +123,44 @@ function renderScene(episode, scene, index) {
   head.className = "scene-head";
 
   const number = document.createElement("strong");
-  number.textContent = `Scene ${index + 1}`;
+  number.textContent = t("scene_n", { n: index + 1 });
 
-  const duration = field("input", scene.duration, "Time, e.g. 0–3 s", (value) => (scene.duration = value));
+  const duration = field("input", scene.duration, t("scene_time"), (value) => (scene.duration = value));
   duration.className = "scene-duration";
 
   const actions = document.createElement("div");
   actions.className = "idea-actions";
   actions.append(
-    smallButton("↑", "Move up", () => moveScene(episode, index, -1)),
-    smallButton("↓", "Move down", () => moveScene(episode, index, 1)),
-    smallButton("Delete", "Delete scene", () => deleteScene(episode, scene.id))
+    smallButton("↑", t("move_up"), () => moveScene(episode, index, -1)),
+    smallButton("↓", t("move_down"), () => moveScene(episode, index, 1)),
+    smallButton(t("delete"), t("delete_scene"), () => deleteScene(episode, scene.id))
   );
 
   head.append(number, duration, actions);
 
-  const visual = field("textarea", scene.visual, "What we see in this scene", (value) => (scene.visual = value));
+  const visual = field("textarea", scene.visual, t("visual_placeholder"), (value) => (scene.visual = value));
 
   const lines = document.createElement("div");
   lines.className = "scene-lines";
   scene.lines.forEach((line, lineIndex) => lines.append(renderLine(scene, line, lineIndex)));
 
-  const addLine = smallButton("+ Add line", "Add a dialogue, thought or message line", () => {
+  const addLine = smallButton(t("add_line"), t("add_line_title"), () => {
     scene.lines.push({ speaker: "", kind: "speech", text: "" });
     saveState();
     renderEpisodeEditor();
   });
   addLine.classList.add("add-line");
 
-  const prompt = field("textarea", scene.prompt, "Image prompt", (value) => (scene.prompt = value));
-  const image = field("input", scene.image, "Image file name, e.g. 01-secret-plan.png", (value) => (scene.image = value));
+  const prompt = field("textarea", scene.prompt, t("image_prompt"), (value) => (scene.prompt = value));
+  const image = field("input", scene.image, t("image_file_placeholder"), (value) => (scene.image = value));
 
-  card.append(head, label("Visual", visual), label("Dialogue", lines, addLine), label("Image prompt", prompt), label("Image file", image));
+  card.append(
+    head,
+    label(t("visual"), visual),
+    label(t("dialogue"), lines, addLine),
+    label(t("image_prompt"), prompt),
+    label(t("image_file"), image)
+  );
   return card;
 }
 
@@ -168,21 +178,21 @@ function renderLine(scene, line, lineIndex) {
   const row = document.createElement("div");
   row.className = "line-row";
 
-  const speaker = field("input", line.speaker, "Who", (value) => (line.speaker = value));
+  const speaker = field("input", line.speaker, t("who"), (value) => (line.speaker = value));
   speaker.className = "line-speaker";
 
   const kind = document.createElement("select");
-  for (const option of LINE_KINDS) kind.append(new Option(option, option));
+  for (const option of LINE_KINDS) kind.append(new Option(t(`kind_${option}`), option));
   kind.value = line.kind;
   kind.addEventListener("change", () => {
     line.kind = kind.value;
     saveState();
   });
 
-  const text = field("input", line.text, "Line", (value) => (line.text = value));
+  const text = field("input", line.text, t("line"), (value) => (line.text = value));
   text.className = "line-text";
 
-  const remove = smallButton("×", "Delete line", () => {
+  const remove = smallButton("×", t("delete_line"), () => {
     scene.lines.splice(lineIndex, 1);
     saveState();
     renderEpisodeEditor();
@@ -204,7 +214,7 @@ function moveScene(episode, index, step) {
 }
 
 function deleteScene(episode, sceneId) {
-  if (!confirm("Delete this scene?")) return;
+  if (!confirm(t("confirm_delete_scene"))) return;
   episode.scenes = episode.scenes.filter((scene) => scene.id !== sceneId);
   saveState();
   renderScripts();
@@ -212,7 +222,7 @@ function deleteScene(episode, sceneId) {
 
 function deleteEpisode() {
   const episode = activeEpisode();
-  if (!episode || !confirm(`Delete "${episode.title}" with all its scenes and scheduled posts?`)) return;
+  if (!episode || !confirm(t("confirm_delete_episode", { title: episode.title }))) return;
   state.episodes = state.episodes.filter((item) => item.id !== episode.id);
   state.posts = state.posts.filter((post) => post.episodeId !== episode.id);
   activeEpisodeId = null;
@@ -228,21 +238,26 @@ function cell(text) {
 
 function episodeToMarkdown(episode) {
   const out = [`# ${episode.title}`, ""];
-  out.push(`Channel: ${channelNameById(episode.channelId)} · ${sceneCount(episode)}`, "");
+  out.push(`${t("channel")}: ${channelNameById(episode.channelId)} · ${sceneCount(episode)}`, "");
   if (episode.notes.trim()) out.push(episode.notes.trim(), "");
 
-  out.push("## Scenes", "", "| # | Time | Visual | Dialogue |", "| --- | --- | --- | --- |");
+  out.push(
+    `## ${t("md_scenes")}`,
+    "",
+    `| # | ${t("md_time")} | ${t("visual")} | ${t("dialogue")} |`,
+    "| --- | --- | --- | --- |"
+  );
   episode.scenes.forEach((scene, index) => {
     const dialogue = scene.lines
       .filter((line) => line.text.trim())
-      .map((line) => `**${cell(line.speaker || "?")}${KIND_LABELS[line.kind]}:** “${cell(line.text)}”`)
+      .map((line) => `**${cell(line.speaker || "?")}${kindSuffix(line.kind)}:** “${cell(line.text)}”`)
       .join("<br>");
     out.push(`| ${index + 1} | ${cell(scene.duration)} | ${cell(scene.visual)} | ${dialogue} |`);
   });
 
   const prompts = episode.scenes.map((scene, index) => ({ scene, index })).filter(({ scene }) => scene.prompt.trim());
   if (prompts.length) {
-    out.push("", "## Image prompts");
+    out.push("", `## ${t("md_prompts")}`);
     for (const { scene, index } of prompts) {
       const name = scene.image.trim() ? ` — \`${scene.image.trim()}\`` : "";
       out.push("", `### ${String(index + 1).padStart(2, "0")}${name}`, "", "```", scene.prompt.trim(), "```");
@@ -272,12 +287,12 @@ async function copyMarkdown(button) {
   if (!episode) return;
   try {
     await navigator.clipboard.writeText(episodeToMarkdown(episode));
-    button.textContent = "Copied!";
+    button.textContent = t("copied");
   } catch (error) {
     console.warn("Clipboard not available", error);
-    button.textContent = "Copy failed – use Download";
+    button.textContent = t("copy_failed");
   }
-  setTimeout(() => (button.textContent = "Copy Markdown"), 1500);
+  setTimeout(() => (button.textContent = t("copy_markdown")), 1500);
 }
 
 // ---------- events ----------

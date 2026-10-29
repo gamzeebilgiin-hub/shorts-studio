@@ -71,6 +71,8 @@ button:disabled { opacity: 0.45; cursor: default; }
 
 .topbar nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
 
+.language { padding: 0.35rem 0.5rem; font-size: 0.9rem; }
+
 .tab {
   background: transparent;
   border-color: transparent;

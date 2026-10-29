@@ -50,21 +50,22 @@ const ideaList = $("idea-list");
 const ideaCount = $("idea-count");
 const emptyState = $("empty-state");
 
-for (const status of STATUSES) {
-  filterStatus.append(new Option(status, status));
-}
-
 // ---------- rendering ----------
 
+// Statuses are stored in English and only translated for display.
+function statusOptions() {
+  return STATUSES.map((status) => new Option(t(`status_${status}`), status));
+}
+
 function channelNameById(id) {
-  return state.channels.find((channel) => channel.id === id)?.name ?? "Unknown channel";
+  return state.channels.find((channel) => channel.id === id)?.name ?? t("unknown_channel");
 }
 
 function renderChannels() {
   channelList.replaceChildren();
 
   const all = document.createElement("li");
-  all.textContent = "All channels";
+  all.textContent = t("all_channels");
   all.classList.toggle("is-active", activeChannelId === null);
   all.addEventListener("click", () => selectChannel(null));
   channelList.append(all);
@@ -80,7 +81,7 @@ function renderChannels() {
     const remove = document.createElement("button");
     remove.className = "link-button";
     remove.textContent = "×";
-    remove.title = "Delete channel";
+    remove.title = t("delete_channel");
     remove.addEventListener("click", (event) => {
       event.stopPropagation();
       deleteChannel(channel.id);
@@ -100,13 +101,16 @@ function renderChannels() {
 
 function renderIdeas() {
   const statusFilter = filterStatus.value;
+  filterStatus.replaceChildren(new Option(t("all_statuses"), ""), ...statusOptions());
+  filterStatus.value = statusFilter;
+
   const visible = state.ideas
     .filter((idea) => activeChannelId === null || idea.channelId === activeChannelId)
     .filter((idea) => !statusFilter || idea.status === statusFilter)
     .sort((a, b) => b.createdAt - a.createdAt);
 
   ideaList.replaceChildren(...visible.map(renderIdea));
-  ideaCount.textContent = `${visible.length} idea${visible.length === 1 ? "" : "s"}`;
+  ideaCount.textContent = t("ideas", { count: visible.length });
   emptyState.hidden = visible.length > 0;
 }
 
@@ -125,19 +129,19 @@ function renderIdea(idea) {
   actions.className = "idea-actions";
 
   const status = document.createElement("select");
-  for (const option of STATUSES) status.append(new Option(option, option));
+  status.append(...statusOptions());
   status.value = idea.status;
   status.addEventListener("change", () => updateIdea(idea.id, { status: status.value }));
 
   const episode = state.episodes.find((item) => item.ideaId === idea.id);
   const script = document.createElement("button");
   script.className = "link-button";
-  script.textContent = episode ? "Open script" : "Write script";
+  script.textContent = episode ? t("open_script") : t("write_script");
   script.addEventListener("click", () => openScriptForIdea(idea));
 
   const remove = document.createElement("button");
   remove.className = "link-button";
-  remove.textContent = "Delete";
+  remove.textContent = t("delete");
   remove.addEventListener("click", () => deleteIdea(idea.id));
 
   actions.append(status, script, remove);
@@ -213,10 +217,11 @@ function addChannel(name) {
 function deleteChannel(id) {
   const ideaTotal = state.ideas.filter((idea) => idea.channelId === id).length;
   const episodeTotal = state.episodes.filter((episode) => episode.channelId === id).length;
+  const name = channelNameById(id);
   const message =
     ideaTotal || episodeTotal
-      ? `Delete "${channelNameById(id)}" with its ${ideaTotal} idea(s) and ${episodeTotal} episode(s)?`
-      : `Delete "${channelNameById(id)}"?`;
+      ? t("confirm_delete_channel_all", { name, ideas: ideaTotal, episodes: episodeTotal })
+      : t("confirm_delete_channel", { name });
   if (!confirm(message)) return;
 
   state.channels = state.channels.filter((channel) => channel.id !== id);
@@ -244,7 +249,7 @@ function updateIdea(id, changes) {
 }
 
 function deleteIdea(id) {
-  if (!confirm("Delete this idea?")) return;
+  if (!confirm(t("confirm_delete_idea"))) return;
   state.ideas = state.ideas.filter((idea) => idea.id !== id);
   saveState();
   renderIdeas();
@@ -279,6 +284,15 @@ for (const tab of document.querySelectorAll(".tab[data-view]")) {
   tab.addEventListener("click", () => showView(tab.dataset.view));
 }
 
+const languageSelect = $("language");
+languageSelect.append(...Object.entries(LANGUAGES).map(([code, language]) => new Option(language.name, code)));
+languageSelect.value = currentLanguage;
+languageSelect.addEventListener("change", () => {
+  setLanguage(languageSelect.value);
+  render();
+});
+
+applyTranslations();
 initScripts();
 initBubbles();
 initCalendar();

@@ -10,118 +10,119 @@
   <header class="topbar">
     <h1>Shorts Studio</h1>
     <nav>
-      <button class="tab is-active" data-view="ideas">Idea bank</button>
-      <button class="tab" data-view="scripts">Scripts</button>
-      <button class="tab" data-view="bubbles">Bubbles</button>
-      <button class="tab" disabled title="Coming soon">Characters</button>
-      <button class="tab" data-view="calendar">Calendar</button>
+      <button class="tab is-active" data-view="ideas" data-i18n="tab_ideas">Idea bank</button>
+      <button class="tab" data-view="scripts" data-i18n="tab_scripts">Scripts</button>
+      <button class="tab" data-view="bubbles" data-i18n="tab_bubbles">Bubbles</button>
+      <button class="tab" disabled data-i18n="tab_characters" data-i18n-title="coming_soon">Characters</button>
+      <button class="tab" data-view="calendar" data-i18n="tab_calendar">Calendar</button>
     </nav>
+    <select id="language" class="language" data-i18n-aria="language"></select>
   </header>
 
   <main class="layout">
     <aside class="sidebar">
-      <h2>Channels</h2>
+      <h2 data-i18n="channels">Channels</h2>
       <ul id="channel-list" class="channel-list"></ul>
       <form id="channel-form" class="inline-form">
-        <input id="channel-name" placeholder="New channel name" required maxlength="60">
-        <button type="submit">Add</button>
+        <input id="channel-name" data-i18n-placeholder="new_channel" required maxlength="60">
+        <button type="submit" data-i18n="add">Add</button>
       </form>
     </aside>
 
     <section class="content" id="view-ideas">
       <form id="idea-form" class="card idea-form">
-        <h2>New idea</h2>
-        <input id="idea-title" placeholder="Idea title" required maxlength="120">
-        <textarea id="idea-notes" placeholder="Hook, story, notes…" rows="3"></textarea>
+        <h2 data-i18n="new_idea">New idea</h2>
+        <input id="idea-title" data-i18n-placeholder="idea_title" required maxlength="120">
+        <textarea id="idea-notes" data-i18n-placeholder="idea_notes" rows="3"></textarea>
         <div class="row">
-          <select id="idea-channel" required></select>
+          <select id="idea-channel" data-i18n-aria="channel" required></select>
           <fieldset class="platforms">
             <label><input type="checkbox" value="YouTube" checked> YouTube</label>
             <label><input type="checkbox" value="Instagram" checked> Instagram</label>
             <label><input type="checkbox" value="TikTok" checked> TikTok</label>
           </fieldset>
-          <button type="submit">Save idea</button>
+          <button type="submit" data-i18n="save_idea">Save idea</button>
         </div>
       </form>
 
       <div class="filters">
         <select id="filter-status">
-          <option value="">All statuses</option>
+          <option value="" data-i18n="all_statuses">All statuses</option>
         </select>
         <span id="idea-count" class="muted"></span>
       </div>
 
       <ul id="idea-list" class="idea-list"></ul>
-      <p id="empty-state" class="muted empty" hidden>No ideas yet. Add a channel, then write your first idea.</p>
+      <p id="empty-state" class="muted empty" hidden data-i18n="ideas_empty"></p>
     </section>
 
     <section class="content" id="view-scripts" hidden>
       <form id="episode-form" class="card inline-form">
-        <input id="episode-new-title" placeholder="New episode title" required maxlength="120">
-        <select id="episode-channel" required></select>
-        <button type="submit">Create episode</button>
+        <input id="episode-new-title" data-i18n-placeholder="new_episode" required maxlength="120">
+        <select id="episode-channel" data-i18n-aria="channel" required></select>
+        <button type="submit" data-i18n="create_episode">Create episode</button>
       </form>
 
       <ul id="episode-list" class="episode-list"></ul>
-      <p id="episode-empty" class="muted empty" hidden>No episodes yet. Create one above, or use "Write script" on an idea.</p>
+      <p id="episode-empty" class="muted empty" hidden data-i18n="episodes_empty"></p>
 
       <div id="episode-editor" class="episode-editor" hidden>
         <div class="card episode-meta">
-          <input id="episode-title" class="episode-title" placeholder="Episode title" maxlength="120">
-          <textarea id="episode-notes" rows="3" placeholder="Format, character continuity, editing notes…"></textarea>
+          <input id="episode-title" class="episode-title" data-i18n-placeholder="episode_title" maxlength="120">
+          <textarea id="episode-notes" rows="3" data-i18n-placeholder="episode_notes"></textarea>
           <div class="row">
-            <button type="button" id="copy-markdown">Copy Markdown</button>
-            <button type="button" id="download-markdown">Download .md</button>
-            <button type="button" id="delete-episode" class="link-button">Delete episode</button>
+            <button type="button" id="copy-markdown" data-i18n="copy_markdown">Copy Markdown</button>
+            <button type="button" id="download-markdown" data-i18n="download_md">Download .md</button>
+            <button type="button" id="delete-episode" class="link-button" data-i18n="delete_episode">Delete episode</button>
           </div>
         </div>
 
         <ol id="scene-list" class="scene-list"></ol>
-        <button type="button" id="add-scene">+ Add scene</button>
+        <button type="button" id="add-scene" data-i18n="add_scene">+ Add scene</button>
       </div>
     </section>
 
     <section class="content" id="view-bubbles" hidden>
-      <p id="bubble-empty" class="muted empty" hidden>No episodes yet. Write a script first, then place its dialogue here.</p>
+      <p id="bubble-empty" class="muted empty" hidden data-i18n="bubbles_empty"></p>
 
       <div id="bubble-workspace" class="bubble-workspace">
         <div class="card bubble-toolbar">
-          <select id="bubble-episode" aria-label="Episode"></select>
+          <select id="bubble-episode" data-i18n-aria="episode"></select>
           <div id="bubble-scenes" class="scene-chips"></div>
         </div>
 
         <div class="bubble-layout">
           <div class="card bubble-stage">
             <canvas id="bubble-canvas" hidden></canvas>
-            <p id="bubble-no-image" class="muted empty">Choose the scene image on the right to start placing bubbles.</p>
+            <p id="bubble-no-image" class="muted empty" data-i18n="bubbles_no_image"></p>
           </div>
 
           <aside class="card bubble-side">
             <label class="file-button">
-              Choose scene image
+              <span data-i18n="choose_image">Choose scene image</span>
               <input type="file" id="bubble-file" accept="image/*">
             </label>
 
             <div>
-              <h2>Bubbles</h2>
-              <p id="bubble-no-lines" class="muted" hidden>This scene has no dialogue yet. Add lines in Scripts.</p>
+              <h2 data-i18n="bubbles_title">Bubbles</h2>
+              <p id="bubble-no-lines" class="muted" hidden data-i18n="bubbles_no_lines"></p>
               <ul id="bubble-lines" class="bubble-lines"></ul>
-              <p class="muted">Drag a bubble on the image to move it.</p>
+              <p class="muted" data-i18n="bubbles_drag"></p>
             </div>
 
             <div id="bubble-controls" class="bubble-controls" hidden>
-              <label>Width <input type="range" id="bubble-width" min="15" max="95"></label>
-              <label>Text size <input type="range" id="bubble-size" min="20" max="80"></label>
-              <label>Tail / side
+              <label><span data-i18n="width">Width</span> <input type="range" id="bubble-width" min="15" max="95"></label>
+              <label><span data-i18n="text_size">Text size</span> <input type="range" id="bubble-size" min="20" max="80"></label>
+              <label><span data-i18n="tail">Tail / side</span>
                 <select id="bubble-tail">
-                  <option value="left">Left</option>
-                  <option value="right">Right</option>
-                  <option value="none">None</option>
+                  <option value="left" data-i18n="left">Left</option>
+                  <option value="right" data-i18n="right">Right</option>
+                  <option value="none" data-i18n="none">None</option>
                 </select>
               </label>
             </div>
 
-            <button type="button" id="bubble-export">Download PNG</button>
+            <button type="button" id="bubble-export" data-i18n="download_png">Download PNG</button>
           </aside>
         </div>
       </div>
@@ -129,12 +130,12 @@
 
     <section class="content" id="view-calendar" hidden>
       <form id="post-form" class="card post-form">
-        <h2>Schedule a post</h2>
-        <p id="post-no-episodes" class="muted" hidden>Write an episode in Scripts first, then schedule it here.</p>
+        <h2 data-i18n="schedule_post">Schedule a post</h2>
+        <p id="post-no-episodes" class="muted" hidden data-i18n="post_no_episodes"></p>
         <div class="row">
-          <select id="post-episode" aria-label="Episode" required></select>
-          <input type="date" id="post-date" aria-label="Date" required>
-          <input type="time" id="post-time" aria-label="Time">
+          <select id="post-episode" data-i18n-aria="episode" required></select>
+          <input type="date" id="post-date" data-i18n-aria="date" required>
+          <input type="time" id="post-time" data-i18n-aria="time">
         </div>
         <div class="row">
           <fieldset id="post-platforms" class="platforms">
@@ -142,32 +143,33 @@
             <label><input type="checkbox" value="Instagram" checked> Instagram</label>
             <label><input type="checkbox" value="TikTok" checked> TikTok</label>
           </fieldset>
-          <button type="submit">Schedule</button>
+          <button type="submit" data-i18n="schedule">Schedule</button>
         </div>
       </form>
 
       <div class="card calendar">
         <div class="calendar-head">
-          <button type="button" id="calendar-prev" class="link-button" aria-label="Previous month">←</button>
+          <button type="button" id="calendar-prev" class="link-button" data-i18n-aria="prev_month">←</button>
           <h2 id="calendar-title"></h2>
-          <button type="button" id="calendar-next" class="link-button" aria-label="Next month">→</button>
-          <button type="button" id="calendar-today" class="link-button">Today</button>
+          <button type="button" id="calendar-next" class="link-button" data-i18n-aria="next_month">→</button>
+          <button type="button" id="calendar-today" class="link-button" data-i18n="today">Today</button>
         </div>
         <div id="calendar-grid" class="calendar-grid"></div>
         <div class="legend muted">
           <span><span class="post-dot platform-youtube"></span> YouTube</span>
           <span><span class="post-dot platform-instagram"></span> Instagram</span>
           <span><span class="post-dot platform-tiktok"></span> TikTok</span>
-          <span><span class="post-dot is-posted"></span> Posted</span>
+          <span><span class="post-dot is-posted"></span> <span data-i18n="posted">Posted</span></span>
         </div>
       </div>
 
       <h2 id="day-title" class="day-title"></h2>
       <ul id="day-posts" class="day-posts"></ul>
-      <p id="day-empty" class="muted" hidden>Nothing scheduled for this day.</p>
+      <p id="day-empty" class="muted" hidden data-i18n="day_empty"></p>
     </section>
   </main>
 
+  <script src="i18n.js"></script>
   <script src="scripts.js"></script>
   <script src="bubbles.js"></script>
   <script src="calendar.js"></script>

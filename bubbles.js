@@ -229,7 +229,7 @@ function renderBubbles() {
       button.className = "scene-chip";
       button.classList.toggle("is-active", scene.id === bubbleSceneId);
       button.textContent = index + 1;
-      button.title = scene.visual || `Scene ${index + 1}`;
+      button.title = scene.visual || t("scene_n", { n: index + 1 });
       button.addEventListener("click", () => {
         bubbleSceneId = scene.id;
         selectedLine = null;
@@ -282,7 +282,7 @@ function renderBubbleControls() {
     ...lines.map((line) => {
       const item = document.createElement("li");
       item.classList.toggle("is-active", line === selectedLine);
-      item.textContent = `${line.speaker || "?"} (${line.kind}): ${line.text}`;
+      item.textContent = `${line.speaker || "?"} (${t(`kind_${line.kind}`)}): ${line.text}`;
       item.addEventListener("click", () => selectLine(line));
       return item;
     })
@@ -410,7 +410,7 @@ function initBubbles() {
       await saveSceneImage(scene.id, file);
     } catch (error) {
       console.warn("Could not save scene image", error);
-      alert("The image could not be saved in this browser.");
+      alert(t("image_save_failed"));
       return;
     }
     if (!scene.image.trim()) {

@@ -28,6 +28,10 @@ Early development. The production workflow already exists; the app is being buil
 - [x] Speech bubble editor: load a scene image, drag each dialogue line as a speech, thought or phone-message bubble, adjust width, text size and tail side, and download the finished PNG at full resolution
 - [x] Publishing calendar: schedule an episode on YouTube, Instagram and TikTok at a date and time, see the month at a glance, mark posts as posted (the idea moves to "Published" when every post is out)
 
+## Languages
+
+The interface is available in English, Türkçe, Español, Deutsch, Français and Português. It opens in your browser's language and you can switch it from the menu in the top bar; dates and weekdays follow the chosen language.
+
 ## How to run
 
 No installation needed. Open the [live app](https://gamzeebilgiin-hub.github.io/shorts-studio/), or download the repository and open `index.html` in your browser. Your data is saved in the browser on your own computer: text in localStorage, scene images in IndexedDB.

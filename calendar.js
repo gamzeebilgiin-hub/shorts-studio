@@ -3,7 +3,6 @@
 // episode is marked as posted, the idea it came from moves to "Published".
 
 const PLATFORMS = ["YouTube", "Instagram", "TikTok"];
-const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 let calendarMonth = startOfMonth(new Date());
 let selectedDay = dayKey(new Date());
@@ -64,13 +63,14 @@ function renderCalendar() {
 }
 
 function renderMonth() {
-  $("calendar-title").textContent = calendarMonth.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+  $("calendar-title").textContent = calendarMonth.toLocaleDateString(locale(), { month: "long", year: "numeric" });
 
+  // Weekday names in the current language, Monday first (1 January 2024 was a Monday).
   const grid = $("calendar-grid");
-  const cells = WEEKDAYS.map((name) => {
+  const cells = Array.from({ length: 7 }, (_, index) => {
     const head = document.createElement("div");
     head.className = "weekday";
-    head.textContent = name;
+    head.textContent = new Date(2024, 0, 1 + index).toLocaleDateString(locale(), { weekday: "short" });
     return head;
   });
 
@@ -117,7 +117,7 @@ function renderMonth() {
 
 function renderDay() {
   const date = new Date(`${selectedDay}T00:00`);
-  $("day-title").textContent = date.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+  $("day-title").textContent = date.toLocaleDateString(locale(), { weekday: "long", day: "numeric", month: "long" });
 
   const posts = postsOn(selectedDay);
   $("day-empty").hidden = posts.length > 0;
@@ -138,7 +138,7 @@ function renderDay() {
       title.textContent = episode.title;
       const meta = document.createElement("span");
       meta.className = "muted";
-      meta.textContent = `${post.time || "Any time"} · ${channelNameById(episode.channelId)}`;
+      meta.textContent = `${post.time || t("any_time")} · ${channelNameById(episode.channelId)}`;
       text.append(title, meta);
 
       const actions = document.createElement("div");
@@ -155,14 +155,14 @@ function renderDay() {
         saveState();
         render();
       });
-      posted.append(box, " Posted");
+      posted.append(box, ` ${t("posted")}`);
 
       const remove = document.createElement("button");
       remove.type = "button";
       remove.className = "link-button";
-      remove.textContent = "Delete";
+      remove.textContent = t("delete");
       remove.addEventListener("click", () => {
-        if (!confirm("Delete this post from the calendar?")) return;
+        if (!confirm(t("confirm_delete_post"))) return;
         state.posts = state.posts.filter((item) => item.id !== post.id);
         syncIdeaStatus(post.episodeId);
         saveState();
